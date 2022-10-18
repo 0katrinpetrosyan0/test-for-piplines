@@ -12,6 +12,10 @@ jobs:
           - dashboard
     permissions: write-all
     steps:
+      - name: Check out code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
       - run: python -m pip install pre-commit
         shell: bash
       - run: python -m pip freeze --local
