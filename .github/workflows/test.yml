@@ -38,7 +38,7 @@ jobs:
           terraform_version: 1.2.1
       - name: Initialize Terraform
         run: |
-            cd ${{ matrix.path }}
+            cd modules/${{ matrix.path }}
             terraform init
         shell: bash
       
