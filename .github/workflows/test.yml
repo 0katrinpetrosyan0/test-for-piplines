@@ -12,7 +12,7 @@ jobs:
           - dashboard
     permissions: write-all
     steps:
-    - uses: dasmeta/reusable-actions-workflows/tfsec@4.0.0
+    - uses: dasmeta/reusable-actions-workflows/tfsec@main
       with:
         fetch-depth: 0
         
