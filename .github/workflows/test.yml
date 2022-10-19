@@ -20,20 +20,7 @@ jobs:
         shell: bash
       - run: python -m pip freeze --local
         shell: bash
-      - run: curl -sSLo ./terraform-docs.tar.gz https://terraform-docs.io/dl/v0.16.0/terraform-docs-v0.16.0-$(uname)-amd64.tar.gz
-        shell: bash
-      - run: curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
-        shell: bash
-      - run: |
-          sudo apt update
-          sudo apt install golang-go
-          go install github.com/terraform-docs/terraform-docs@v0.16.0
-        shell: bash
-      - run: tar -xzf terraform-docs.tar.gz
-        shell: bash
-      - run: chmod +x terraform-docs
-        shell: bash
-      - run: sudo mv terraform-docs /usr/terraform-docs
+      - run: brew install terraform-docs
         shell: bash
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
