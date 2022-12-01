@@ -1,10 +1,10 @@
 version: 2
 
 registries:
-terraform:
-  type: terraform-registry
-  url: https://registry.terraform.io/
-  token: ${{ secrets.GITHUB_TOKEN }}
+  terraform:
+    type: terraform-registry
+    url: https://registry.terraform.io/
+    token: ${{ secrets.GITHUB_TOKEN }}
 
 updates:
   - package-ecosystem: "terraform"
