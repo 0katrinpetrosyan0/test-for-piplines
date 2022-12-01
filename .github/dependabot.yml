@@ -9,6 +9,7 @@ terraform:
 updates:
   - package-ecosystem: "terraform"
     directory: 
+      - "/"
       - "modules/aws-security-hub-opsgenie"
       - "modules/billing"
       - "modules/dashboard"
