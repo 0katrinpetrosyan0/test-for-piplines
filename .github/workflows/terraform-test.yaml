@@ -10,10 +10,7 @@ jobs:
       matrix:
         path:
           - modules/billing
-          - modules/aws-security-hub-opsgenie
           - modules/dashboard
-          - modules/eventbridge
-          - modules/sns_to_lambda
     permissions: write-all
     steps:
     - uses: dasmeta/reusable-actions-workflows/terraform-test@main
@@ -22,18 +19,18 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         path: ${{ matrix.path }}
-    # - uses: ravsamhq/notify-slack-action@v2
-    #   if: always()
-    #   with:
-    #     status: ${{ job.status }}
-    #     notification_title: "{workflow} has {status_message}"
-    #     message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>"
-    #     footer: "Linked Repo <{repo_url}|{repo}>"
-    #     notify_when: "failure"
-    #     mention_users: "U010TK7LG21"
-    #     mention_users_when: "failure,warnings"
-    # env:
-    #   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+    - uses: ravsamhq/notify-slack-action@v2
+      if: always()
+      with:
+        status: ${{ job.status }}
+        notification_title: "{workflow} has {status_message}"
+        message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>"
+        footer: "Linked Repo <{repo_url}|{repo}>"
+        notify_when: "failure"
+        mention_users: "U010TK7LG21"
+        mention_users_when: "failure,warnings"
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
     # - name: Slack Notification
     #   uses: rtCamp/action-slack-notify@v2
     #   env:
