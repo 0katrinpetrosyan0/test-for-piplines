@@ -6,6 +6,14 @@ on:
 jobs:
   terraform-validate:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        path:
+          - modules/billing
+          - modules/aws-security-hub-opsgenie
+          - modules/dashboard
+          - modules/eventbridge
+          - modules/sns_to_lambda
     permissions: write-all
     steps:
     - name: Pre-Commit
@@ -14,7 +22,6 @@ jobs:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      continue-on-error: true
     - uses: ravsamhq/notify-slack-action@v2
       if: always()
       with:
