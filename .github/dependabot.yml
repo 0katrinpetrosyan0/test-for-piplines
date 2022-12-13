@@ -1,22 +1,22 @@
-version: 2
+# version: 2
 
-registries:
- terraform:
-  type: terraform-registry
-  url: https://registry.terraform.io/
-  token: ${{ secrets.GITHUB_TOKEN }}
+# registries:
+#  terraform:
+#   type: terraform-registry
+#   url: https://registry.terraform.io/
+#   token: ${{ secrets.GITHUB_TOKEN }}
 
-updates:
- - package-ecosystem: "terraform"
-   directory:  "modules/aws-security-hub-opsgenie"
-   registries:
-    - terraform
-   schedule:
-    interval: "daily"
- - package-ecosystem: "terraform"
-   directory:  - "modules/billing"
-   registries:
-    - terraform
-   schedule:
-    interval: "daily"
+# updates:
+#  - package-ecosystem: "terraform"
+#    directory:  "modules/aws-security-hub-opsgenie"
+#    registries:
+#     - terraform
+#    schedule:
+#     interval: "daily"
+#  - package-ecosystem: "terraform"
+#    directory:  - "modules/billing"
+#    registries:
+#     - terraform
+#    schedule:
+#     interval: "daily"
     

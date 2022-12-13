@@ -1,0 +1,27 @@
+name: Pre-Commit
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+jobs:
+  terraform-validate:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+    - name: Pre-Commit
+      uses: dasmeta/reusable-actions-workflows/pre-commit@main
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      continue-on-error: true
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: devopsutiun
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_ICON: https://www.dasmeta.com/wp-content/uploads/2021/09/meta-logo-256.png
+        SLACK_MESSAGE: 'Post Content :rocket:'
+        SLACK_TITLE: Post Title
+        SLACK_USERNAME: Github-actions
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
