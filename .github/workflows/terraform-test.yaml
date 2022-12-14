@@ -35,14 +35,14 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         path: ${{ matrix.path }}
   notify:
-    needs: [job1, job2]
     # if: ${{ always() && needs.job1.result == 'failure' ||  needs.job2.result == 'failure' }}
     if: failure()
+    needs: [job1, job2]
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
     - uses: ravsamhq/notify-slack-action@v2
-      # if: always()
+      if: always()
       with:
         status: ${{ job.status }}
         notification_title: "{workflow} has {status_message}"
