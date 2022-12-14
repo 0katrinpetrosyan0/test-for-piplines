@@ -21,6 +21,7 @@ jobs:
 
   job2:
     runs-on: ubuntu-latest
+    # needs: [job1]
     strategy:
       matrix:
         path:
@@ -34,12 +35,9 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         path: ${{ matrix.path }}
   notify:
+    if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
+    needs: [job1, job2]
     runs-on: ubuntu-latest
-    needs: [job1,job2]
-    strategy:
-      matrix:
-        path:
-          - modules/dashboard
     permissions: write-all
     steps:
     - uses: ravsamhq/notify-slack-action@v2
@@ -50,7 +48,7 @@ jobs:
         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>"
         footer: "Linked Repo <{repo_url}|{repo}>"
         notify_when: "failure"
-        mention_users: "U010TK7LG21"
+        # mention_users: "U010TK7LG21"
         mention_users_when: "failure,warnings"
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
@@ -64,4 +62,3 @@ jobs:
     #     SLACK_TITLE: Post Title
     #     SLACK_USERNAME: GitHub-Actions
     #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-
