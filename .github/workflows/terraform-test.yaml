@@ -35,11 +35,21 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         path: ${{ matrix.path }}
   notify:
-    if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
+    if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
     needs: [job1, job2]
     runs-on: ubuntu-latest
     permissions: write-all
+    strategy:
+      matrix:
+        path:
+          - modules/dashboard
     steps:
+    - uses: dasmeta/reusable-actions-workflows/terraform-test@main
+      with:
+        aws-region: ${{ secrets.AWS_REGION}}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        path: ${{ matrix.path }}
     - uses: ravsamhq/notify-slack-action@v2
       if: always()
       with:
@@ -48,7 +58,7 @@ jobs:
         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>"
         footer: "Linked Repo <{repo_url}|{repo}>"
         notify_when: "failure"
-        # mention_users: "U010TK7LG21"
+        mention_users: "U010TK7LG21"
         mention_users_when: "failure,warnings"
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
