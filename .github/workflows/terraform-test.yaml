@@ -35,7 +35,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         path: ${{ matrix.path }}
   notify:
-    if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
+    if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
     needs: [job1, job2]
     runs-on: ubuntu-latest
     permissions: write-all
